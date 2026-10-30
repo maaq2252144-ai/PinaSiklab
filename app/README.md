@@ -1,53 +1,44 @@
 # WasteLedger PH: clickable prototype
 
-A working prototype of the farmer/vendor app and the station staff app. Built with HTML, CSS, JavaScript, PHP and MySQL. All data is sample data, no real SMS is sent and no real money moves.
+A working prototype of the farmer/vendor app and the station staff app. Built with HTML, CSS and JavaScript only; this branch needs no server. All data is sample data, no real SMS is sent and no real money moves.
 
 ## Run it
 
-See [manual.md](manual.md) for the full setup guide. The short version:
+This is the **static Netlify version** (branch `netlify`). It needs no server: the accounts and sample data are hardcoded in `js/services/local-db.js` and each browser keeps its own copy. The XAMPP version with PHP and MySQL is on the `main` branch.
 
-1. Start **Apache** and **MySQL** in the XAMPP Control Panel.
-2. Copy this `app` folder to `htdocs` and rename it `wasteledger`, so you get `xampp\htdocs\wasteledger\index.html`.
-3. Open `http://localhost/wasteledger/` and press **Set up demo database**. It creates a database called `wasteledger_demo`.
+- **Netlify:** deploy this branch from GitHub, or drag the `app` folder onto app.netlify.com/drop. `netlify.toml` publishes only `app`.
+- **On your computer:** run `py -m http.server 8000` inside `app` and open `http://localhost:8000/`.
 
-If your MySQL has a password or uses another port, change `api/_shared/config.php`.
+See [manual.md](manual.md) for the full guide.
 
 ## Folder structure
 
-The layout follows the team's VitaCarnis project (`9628-slavesofdayrit`).
+The layout follows the team's VitaCarnis project (`9628-slavesofdayrit`). This branch has no `api/` or `database/` folder.
 
 ```
 app/
-├── index.html              Launcher: checks the database, links to the three apps
+├── index.html              Launcher: links to the three apps
 ├── offline.html            Shown when a page was never saved for offline use
 ├── manifest.json           Install-as-app settings
-├── sw.js                   Service worker: lets the station app reopen offline
-├── api/
-│   ├── _shared/            bootstrap.php (database + helpers), config.php, sms.php
-│   ├── applications/       Supplier applications and activation
-│   ├── auth/               Supplier SMS-code login, staff PIN login
-│   ├── dropoffs/           Weigh-ins, offline sync, corrections
-│   ├── payouts/            Demo Controls (stand-in for City Admin)
-│   ├── setup/              First-run database setup for the launcher
-│   ├── station/            Station bootstrap, crates, calibration, manifests
-│   └── supplier/           Supplier balance, history, messages
+├── sw.js                   Service worker: lets the apps reopen offline
+├── _headers                Netlify cache headers
 ├── assets/
 │   ├── css/                tokens.css, components.css
 │   ├── icons/              App icons for the tab, home screen and install
 │   └── images/             Logo and placeholder photo
-├── database/               schema.sql, seed.sql
 ├── js/
 │   ├── app.js              Launcher logic
-│   ├── core/utils.js       Shared helpers, icons, APP_ROOT
-│   ├── services/           api.js (calls the PHP API), sw-register.js
+│   ├── core/utils.js       Shared helpers, icons, screen drawing
+│   ├── services/
+│   │   ├── local-db.js     Hardcoded accounts and sample data, saved in the browser
+│   │   ├── api.js          The PHP API rebuilt in JavaScript, same actions and replies
+│   │   └── sw-register.js  Registers the service worker
 │   └── features/           station.js, supplier.js, demo.js and their translations
 └── pages/
     ├── demo/dashboard.html
     ├── station/dashboard.html
     └── supplier/dashboard.html
 ```
-
-Every API endpoint is `api/<name>/index.php?action=<action>`. Scripts find the app root from their own address, so pages can sit at any depth.
 
 ## Demo logins
 
@@ -82,7 +73,7 @@ Every supplier uses the SMS code `482619`, which the app shows on screen.
 
 - QR scan: you pick a crate from a list. The QR images are sample patterns, not scannable.
 - Camera: shows a placeholder image.
-- SMS: saved in the database and shown in Messages.
+- SMS: saved in the browser's data and shown in Messages.
 - Photo: a placeholder in `assets/images/`. The logo is `assets/images/logo.png`, and the app icons are in `assets/icons/`.
 
 ## Not built
@@ -91,6 +82,6 @@ City Admin dashboard, rates screen, billing, reports and PDF statements, facilit
 
 ## Before real use
 
-The login is demo-only and Demo Controls has no login, so **don't host this publicly**. Ilokano text needs a native speaker's review. The database in `database/` is a prototype and should be replaced by the team's ERD.
+The accounts are demo-only and visible to anyone who opens the site. Each visitor changes only their own browser's copy of the data. Ilokano text needs a native speaker's review. The data model in `local-db.js` mirrors the prototype database on `main`, which should be replaced by the team's ERD.
 
 [TBD] values are `NULL` in the `rates` table. Those loads credit ₱0.00 and show "Rate [TBD]" until a value is entered.

@@ -18,7 +18,7 @@ async function checkDatabase() {
     showState(r.ready);
   } catch (e) {
     $('launcher-checking').hidden = true;
-    showError('Could not reach the PHP server. Open this page through http://localhost/wasteledger/, not by double-clicking the file.');
+    showError('Something went wrong loading the demo data. Reload the page.');
   }
 }
 

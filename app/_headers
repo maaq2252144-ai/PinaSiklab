@@ -1,0 +1,8 @@
+# Netlify headers. Also used when the app folder is dragged into Netlify by hand.
+/sw.js
+  Cache-Control: no-cache
+/manifest.json
+  Cache-Control: no-cache
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: same-origin

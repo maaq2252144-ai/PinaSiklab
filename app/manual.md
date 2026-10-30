@@ -1,58 +1,39 @@
-# WasteLedger PH Setup Manual
+# WasteLedger PH Setup Manual (static Netlify version)
 
-WasteLedger PH is a prototype of the farmer/vendor app and the weigh-station staff app. It runs on XAMPP (Apache, PHP and MySQL). All data is sample data.
+This branch runs with no server. There is no PHP and no MySQL: the accounts and sample data are hardcoded in `js/services/local-db.js`, and every change is saved in the browser. The `main` branch has the XAMPP version.
 
-## 1. What you need
+## 1. What this means
 
-- XAMPP with PHP 8.1 or newer. The team's copy is in `D:\xampp`.
-- Chrome or Edge.
+- **Each browser has its own data.** A load weighed on one phone does not show on another phone or computer. Use one browser for a demo, and open the station app and the supplier app in tabs of that same browser.
+- **Data stays until it is reset.** Changes survive a reload. Clearing the browser's site data or pressing **Reset demo data** brings back the samples.
+- **It works offline after the first visit.** Everything, including the supplier app and Demo Controls, keeps working with no signal.
 
-## 2. Set it up with XAMPP (recommended)
+## 2. Deploy to Netlify from GitHub
 
-1. Open the **XAMPP Control Panel** and press **Start** next to **Apache** and **MySQL**. Both should turn green.
-2. Copy the whole `app` folder into `D:\xampp\htdocs\` and rename the copy to `wasteledger`. You should now have `D:\xampp\htdocs\wasteledger\index.html`.
-3. Open [http://localhost/wasteledger/](http://localhost/wasteledger/).
-4. Press **Set up demo database**. This creates the `wasteledger_demo` database and loads the sample data. You only do this once.
-5. The launcher now shows three buttons: **Farmer and vendor app**, **Station staff app** and **Demo Controls**.
+1. Push this branch: `git push -u origin netlify`.
+2. In Netlify, choose **Add new site → Import an existing project → GitHub** and pick the `PinaSiklab` repository.
+3. Set **Branch to deploy** to `netlify`. Leave the build command empty. The `netlify.toml` file already tells Netlify to publish only the `app` folder.
+4. Press **Deploy**. Netlify gives the site an address like `https://something.netlify.app`.
 
-Copy the folder again after you change any file, or work directly inside `htdocs\wasteledger`.
+## 3. Deploy to Netlify by drag and drop
 
-## 3. Set it up without Apache
+1. Open [app.netlify.com/drop](https://app.netlify.com/drop).
+2. Drag the `app` folder onto the page. Drag only `app`, not the whole repository, so the Docs folder stays private.
 
-Use this if Apache won't start, for example because Skype or IIS already uses port 80.
+## 4. Try it on your own computer
 
-1. Start only **MySQL** in the XAMPP Control Panel.
-2. Open a terminal in the folder that contains `app` and run:
+Any static file server works. With Python:
 
-   ```
-   D:\xampp\php\php.exe -S localhost:8000 -t app
-   ```
+```
+cd app
+py -m http.server 8000
+```
 
-3. Open [http://localhost:8000/](http://localhost:8000/) and press **Set up demo database**.
-4. Keep the terminal open while you use the app. Press Ctrl+C to stop it.
+Then open [http://localhost:8000/](http://localhost:8000/). Opening `index.html` by double-clicking also shows the screens, but offline mode and installing need `http://localhost` or the Netlify https address.
 
-## 4. Set up the database by hand (optional)
+## 5. Change the accounts
 
-The launcher button does this for you. To do it in phpMyAdmin instead:
-
-1. Open [http://localhost/phpmyadmin/](http://localhost/phpmyadmin/).
-2. Create a database named `wasteledger_demo` with collation `utf8mb4_unicode_ci`.
-3. Select it, open **Import**, and import `database/schema.sql`.
-4. Import `database/seed.sql` the same way.
-
-## 5. Database settings
-
-The connection settings are in `api/_shared/config.php`. They match a fresh XAMPP install:
-
-| Setting | Value |
-| --- | --- |
-| Host | `127.0.0.1` |
-| Port | `3306` |
-| Database | `wasteledger_demo` |
-| User | `root` |
-| Password | empty |
-
-Change them there if your MySQL has a password or uses another port.
+Edit `seedData()` in `js/services/local-db.js`. Staff are in `staff` (name and PIN) and suppliers are in `suppliers`. The SMS code is `demo_otp` in `settings`. After editing, press **Reset demo data** in Demo Controls so the browser loads the new list.
 
 ## 6. Demo accounts
 
@@ -90,12 +71,11 @@ Open **Demo Controls** and press **Reset demo data**. This erases everything in 
 
 | Problem | Check |
 | --- | --- |
-| "Could not reach the PHP server" | Open the app through `http://localhost/wasteledger/`, not `file:///`. |
-| "The database is not set up yet" stays after pressing the button | Start MySQL in the XAMPP Control Panel, then press the button again. The red message shows MySQL's own error. |
-| "Access denied for user 'root'" | Your MySQL has a password. Put it in `api/_shared/config.php`. |
-| Apache won't start | Another program is using port 80. Use section 3 instead. |
-| Old screens still show after an update | Reload the page while online. If that fails, open DevTools, go to **Application → Service workers** and press **Unregister**, then reload. |
+| A new load or account doesn't show on another device | Each browser has its own data. Use one browser for the whole demo. |
+| Account changes in `local-db.js` don't show | Press **Reset demo data** in Demo Controls, or clear the site's data in the browser. |
+| Old screens still show after a deploy | Reload while online. If that fails, open DevTools, go to **Application → Service workers**, press **Unregister** and reload. |
+| The install option doesn't appear | Use the Netlify https address. Plain http network addresses can't install. |
 
 ## 10. Before real use
 
-The logins are demo-only and Demo Controls has no login, so don't host this publicly. Use only sample data. Don't enter real names, phone numbers or payout accounts.
+This version is for demos only. Anyone who opens the site can see the sample accounts and change their own copy of the data. Use only sample data. A real deployment needs the server version from the `main` branch, rebuilt with a proper login.

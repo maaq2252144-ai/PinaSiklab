@@ -1,0 +1,6 @@
+# Netlify settings for the static (no server) version of the WasteLedger PH prototype.
+# Only the app folder is published; Docs, Agents and the rest of the repository stay private.
+[build]
+  base = "app"
+  publish = "."
+  command = ""
