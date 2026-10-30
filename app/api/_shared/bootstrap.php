@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/sms.php';
 
 date_default_timezone_set('Asia/Manila');
@@ -31,7 +31,7 @@ function install_demo_data(): void
     $pdo->exec('USE `' . DB_NAME . '`');
     $pdo->exec("SET time_zone = '+08:00'");
     foreach (['schema.sql', 'seed.sql'] as $file) {
-        $sql = preg_replace('/^--.*$/m', '', file_get_contents(__DIR__ . '/../db/' . $file));
+        $sql = preg_replace('/^--.*$/m', '', file_get_contents(__DIR__ . '/../../database/' . $file));
         foreach (array_filter(array_map('trim', explode(";\n", str_replace("\r\n", "\n", $sql)))) as $statement) {
             $pdo->exec(rtrim($statement, ';'));
         }

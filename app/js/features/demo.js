@@ -1,13 +1,4 @@
-<?php $title = 'Demo Controls'; require __DIR__ . '/../includes/head.php'; ?>
-<main style="max-width:760px;margin:0 auto;padding:24px 16px;display:flex;flex-direction:column;gap:16px;width:100%">
-  <div><h1>Demo Controls</h1>
-    <p class="sub">A stand-in for the City Admin and facility steps, which are not built. Not part of the product.</p></div>
-  <div id="msg" class="note" role="status" hidden></div>
-  <div id="demo"></div>
-  <p><a href="../">Back to launcher</a></p>
-</main>
-<script src="../assets/js/common.js"></script>
-<script>
+// Demo Controls: a stand-in for the City Admin and facility steps, which are not built.
 const box = document.getElementById('demo');
 const msg = document.getElementById('msg');
 const say = (t) => { msg.textContent = t; msg.hidden = false; };
@@ -18,7 +9,7 @@ async function draw() {
   const pending = d.payouts.filter((p) => p.status === 'pending' && !p.approved_at);
   const approved = d.payouts.filter((p) => p.status === 'pending' && p.approved_at);
   const closed = d.payouts.filter((p) => p.status !== 'pending');
-  box.innerHTML = `<div style="display:flex;flex-direction:column;gap:16px">
+  box.innerHTML = `<div class="stack">
     <section class="card"><h2>1. Balances</h2>
       ${d.balances.map((s) => `<div class="kv"><span>${esc(s.name)}</span><span>${esc(peso(s.balance))}${s.balance >= d.threshold ? ' · reached' : ''}</span></div>`).join('')}
       <button class="btn" data-a="generate">Generate payout list (${esc(peso(d.threshold))} and up)</button></section>
@@ -63,6 +54,3 @@ document.addEventListener('change', async (ev) => {
   }
 });
 draw().catch((e) => say('Could not load: ' + e.message));
-</script>
-</body>
-</html>

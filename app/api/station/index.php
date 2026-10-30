@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../_shared/bootstrap.php';
 $action = api_start();
 $staff = require_staff();
 $in = body();

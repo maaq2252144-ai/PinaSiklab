@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fil">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1A4D2E">
+<title>WasteLedger PH Prototype</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="assets/images/placeholder-logo.svg">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+<main class="page stack">
+  <img src="assets/images/placeholder-logo.svg" alt="Logo placeholder" width="96" height="96">
+  <h1>WasteLedger PH Prototype</h1>
+  <p class="sub">Sample data only. No real SMS or money moves.</p>
+  <p class="error" id="launcher-error" role="alert" hidden></p>
+  <p class="sub" id="launcher-checking">Checking the database…</p>
+  <div id="launcher-setup" hidden>
+    <div class="note warn">
+      <p><b>The database is not set up yet.</b> Start MySQL in the XAMPP Control Panel, then press the button.</p>
+    </div>
+    <button class="btn big" id="install-btn" type="button">Set up demo database</button>
+  </div>
+  <div id="launcher-apps" class="stack" hidden>
+    <a class="btn big" href="pages/supplier/dashboard.html">Farmer and vendor app</a>
+    <a class="btn big" href="pages/station/dashboard.html">Station staff app</a>
+    <a class="btn outline" href="pages/demo/dashboard.html">Demo Controls</a>
+  </div>
+</main>
+<script src="js/core/utils.js"></script>
+<script src="js/services/api.js"></script>
+<script src="js/app.js"></script>
+<script src="js/services/sw-register.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+# Local secrets and machine-specific settings
+.env
+.env.*
+!.env.example
+config/database.local.php
+.htaccess
+
+# Dependencies and generated files
+node_modules/
+vendor/
+__pycache__/
+*.pyc
+/tmp/
+/logs/
+*.log
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local database settings, if you make a copy of api/_shared/config.php
+api/_shared/config.local.php

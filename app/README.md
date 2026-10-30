@@ -4,20 +4,69 @@ A working prototype of the farmer/vendor app and the station staff app. Built wi
 
 ## Run it
 
-1. Open the XAMPP Control Panel and start **MySQL**.
-2. Start the site, either way:
-   - **Apache:** copy this `app` folder to `C:\xampp\htdocs\wasteledger`, start Apache, and open `http://localhost/wasteledger/`.
-   - **PHP's own server:** run `C:\xampp\php\php.exe -S localhost:8000 -t app` from the repo root, and open `http://localhost:8000/`.
-3. On the first visit, press **Set up demo database**. It creates a database called `wasteledger_demo`.
+See [manual.md](manual.md) for the full setup guide. The short version:
 
-If your MySQL has a password or uses another port, change `config.php`.
+1. Start **Apache** and **MySQL** in the XAMPP Control Panel.
+2. Copy this `app` folder to `htdocs` and rename it `wasteledger`, so you get `xampp\htdocs\wasteledger\index.html`.
+3. Open `http://localhost/wasteledger/` and press **Set up demo database**. It creates a database called `wasteledger_demo`.
+
+If your MySQL has a password or uses another port, change `api/_shared/config.php`.
+
+## Folder structure
+
+The layout follows the team's VitaCarnis project (`9628-slavesofdayrit`).
+
+```
+app/
+├── index.html              Launcher: checks the database, links to the three apps
+├── offline.html            Shown when a page was never saved for offline use
+├── manifest.json           Install-as-app settings
+├── sw.js                   Service worker: lets the station app reopen offline
+├── api/
+│   ├── _shared/            bootstrap.php (database + helpers), config.php, sms.php
+│   ├── applications/       Supplier applications and activation
+│   ├── auth/               Supplier SMS-code login, staff PIN login
+│   ├── dropoffs/           Weigh-ins, offline sync, corrections
+│   ├── payouts/            Demo Controls (stand-in for City Admin)
+│   ├── setup/              First-run database setup for the launcher
+│   ├── station/            Station bootstrap, crates, calibration, manifests
+│   └── supplier/           Supplier balance, history, messages
+├── assets/
+│   ├── css/                tokens.css, components.css
+│   └── images/             Placeholder logo and photo
+├── database/               schema.sql, seed.sql
+├── js/
+│   ├── app.js              Launcher logic
+│   ├── core/utils.js       Shared helpers, icons, APP_ROOT
+│   ├── services/           api.js (calls the PHP API), sw-register.js
+│   └── features/           station.js, supplier.js, demo.js and their translations
+└── pages/
+    ├── demo/dashboard.html
+    ├── station/dashboard.html
+    └── supplier/dashboard.html
+```
+
+Every API endpoint is `api/<name>/index.php?action=<action>`. Scripts find the app root from their own address, so pages can sit at any depth.
 
 ## Demo logins
 
-| App | Login |
-|---|---|
-| Farmer and vendor | Ben `09170000207`, Nena `09170000112`, Luz `09170000145`; the SMS code is on screen (`482619`) |
-| Station staff | PIN `1234` |
+| Account | Login | What it shows |
+| --- | --- | --- |
+| Ben Dulnuan, co-op | `09170000207` | Filipino. Co-op with members, rejected and pending-rate loads |
+| Nena Bautista, vendor | `09170000112` | Filipino. Balance has reached the ₱200 payout threshold |
+| Luz Pacio, vendor | `09170000145` | Ilokano. Small balance, one load |
+| Jenny Ramos, vendor | `09170000188` | English. New account with no loads, tagged "existing" |
+| Elena Bayang, co-op | `09170000215` | English. Paid by bank, has a payout already sent |
+| Carlo Dumalo, vendor | `09170000120` | Ilokano. Last payout failed and went back to the balance |
+| Rosa Kimmay, applicant | `09170000301` | Can't log in yet. Waiting for staff to activate |
+| Joel Bantog, co-op applicant | `09170000303` | Can't log in yet. Waiting for staff to activate |
+| Mario Calpito, applicant | `09170000302` | Can't log in. Application was rejected |
+| Kuya Jun, station staff | PIN `1234` | Station app |
+| Ate Carmen, station staff | PIN `5678` | Station app |
+| Kuya Dante, station staff | PIN `2468` | Station app |
+| Demo Controls | No login | Stand-in for City Admin |
+
+Every supplier uses the SMS code `482619`, which the app shows on screen.
 
 ## Five-minute demo
 
@@ -33,7 +82,7 @@ If your MySQL has a password or uses another port, change `config.php`.
 - QR scan: you pick a crate from a list. The QR images are sample patterns, not scannable.
 - Camera: shows a placeholder image.
 - SMS: saved in the database and shown in Messages.
-- Logo and images: placeholders in `assets/img/`.
+- Logo and images: placeholders in `assets/images/`.
 
 ## Not built
 
@@ -41,6 +90,6 @@ City Admin dashboard, rates screen, billing, reports and PDF statements, facilit
 
 ## Before real use
 
-The login is demo-only and Demo Controls has no login, so **don't host this publicly**. Ilokano text needs a native speaker's review. The database in `db/` is a prototype and should be replaced by the team's ERD.
+The login is demo-only and Demo Controls has no login, so **don't host this publicly**. Ilokano text needs a native speaker's review. The database in `database/` is a prototype and should be replaced by the team's ERD.
 
 [TBD] values are `NULL` in the `rates` table. Those loads credit ₱0.00 and show "Rate [TBD]" until a value is entered.

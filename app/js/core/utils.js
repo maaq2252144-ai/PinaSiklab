@@ -1,4 +1,6 @@
-// Shared helpers for both apps.
+// Shared helpers for every page.
+// The app's root folder, worked out from this file's own address (js/core/utils.js), so pages at any depth find assets and the API.
+const APP_ROOT = new URL('../../', document.currentScript.src).href;
 const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const peso = (n) => '₱' + Number(n || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 const kg = (n) => Number(n || 0).toFixed(1) + ' kg';
@@ -64,23 +66,6 @@ function qrSvg(seedText) {
   return `<svg viewBox="0 0 ${N} ${N}" fill="#142823" role="img" aria-label="QR ${esc(seedText)}">${rects}</svg>`;
 }
 
-async function api(endpoint, action, data) {
-  const res = await fetch(`../api/${endpoint}.php?action=${encodeURIComponent(action)}`, {
-    method: data === undefined ? 'GET' : 'POST',
-    credentials: 'same-origin',
-    headers: data === undefined ? {} : { 'Content-Type': 'application/json' },
-    body: data === undefined ? undefined : JSON.stringify(data),
-  });
-  const json = await res.json();
-  if (!json.ok) {
-    const err = new Error(json.error || 'server_error');
-    err.code = json.error;
-    err.status = res.status;
-    throw err;
-  }
-  return json;
-}
-
 const SPEECH_LANG = { fil: 'fil-PH', ilo: 'fil-PH', en: 'en-PH' };
 function speak(text, lang) {
   if (!('speechSynthesis' in window) || !text) return;
@@ -95,10 +80,88 @@ function toast(text) {
   document.querySelector('.toast')?.remove();
   const el = document.createElement('div');
   el.className = 'toast';
-  el.setAttribute('role', 'status');
+  el.setAttribute('aria-hidden', 'true');
   el.textContent = text;
   document.querySelector('.phone').appendChild(el);
+  announce(text);
   setTimeout(() => el.remove(), 3500);
+}
+
+// ---- Screen drawing that keeps keyboard and screen-reader users oriented ----
+// Each tap redraws the whole screen. Without this, focus falls back to the page and
+// screen readers lose their place on every keypad press.
+
+// One live region that lives outside #app, so it survives redraws and its changes are read out.
+function liveRegion() {
+  let el = document.getElementById('sr-status');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'sr-status';
+    el.className = 'sr-only';
+    el.setAttribute('role', 'status');
+    el.setAttribute('aria-live', 'polite');
+    document.body.appendChild(el);
+  }
+  return el;
+}
+function announce(text) {
+  const el = liveRegion();
+  el.textContent = '';
+  // A short delay makes screen readers treat repeated text as a new message.
+  setTimeout(() => { el.textContent = text; }, 50);
+}
+
+// A selector that finds "the same control" again after a redraw.
+const KEY_ATTRS = ['data-act', 'data-go', 'data-k', 'data-g', 'data-r', 'data-c', 'data-s', 'data-lang', 'data-f', 'data-op', 'data-id', 'name'];
+function focusSelector(el) {
+  if (el.id) return '#' + CSS.escape(el.id);
+  if (el.tagName === 'H1') return 'h1';
+  const parts = KEY_ATTRS.filter((a) => el.hasAttribute(a)).map((a) => `[${a}="${CSS.escape(el.getAttribute(a))}"]`);
+  if (el.type === 'radio') parts.push(`[value="${CSS.escape(el.value)}"]`);
+  return parts.length ? el.tagName.toLowerCase() + parts.join('') : null;
+}
+
+const BASE_TITLE = document.title;
+let paintedScreen = null;
+let paintedAnnounce = null;
+
+// Draws a screen. A new screen gets focus on its heading and a new page title.
+// Redrawing the same screen keeps focus on the control that had it, keeps the scroll position,
+// and reads out what changed in anything marked data-announce (for example the keypad display).
+function paint(app, html, screenKey) {
+  const same = screenKey === paintedScreen;
+  const active = document.activeElement;
+  const hadFocus = same && active && active !== app && app.contains(active);
+  const selector = hadFocus ? focusSelector(active) : null;
+  const scrolls = same ? [...app.querySelectorAll('.scroll')].map((el) => el.scrollTop) : [];
+
+  app.innerHTML = html;
+
+  const heading = app.querySelector('h1');
+  if (heading) {
+    heading.tabIndex = -1;
+    document.title = `${heading.textContent.trim()} · ${BASE_TITLE}`;
+  }
+  const announced = [...app.querySelectorAll('[data-announce]')]
+    .map((el) => el.dataset.announce || el.textContent.trim()).filter(Boolean).join('. ');
+
+  if (same) {
+    app.querySelectorAll('.scroll').forEach((el, i) => { if (scrolls[i]) el.scrollTop = scrolls[i]; });
+    const target = selector && app.querySelector(selector);
+    if (target && !target.disabled) target.focus({ preventScroll: true });
+    else if (hadFocus && heading) heading.focus({ preventScroll: true });
+    if (announced && announced !== paintedAnnounce) announce(announced);
+  } else if (paintedScreen !== null && heading) {
+    // Not on the first load: there the browser already starts at the top of the page.
+    heading.focus({ preventScroll: true });
+  }
+  paintedScreen = screenKey;
+  paintedAnnounce = announced;
+}
+
+// Sets the page language. The codes match the language tags screen readers use: fil, ilo and en.
+function setPageLang(code) {
+  document.documentElement.lang = ['fil', 'ilo', 'en'].includes(code) ? code : 'fil';
 }
 
 const pad2 = (n) => String(n).padStart(2, '0');

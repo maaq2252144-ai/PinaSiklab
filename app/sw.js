@@ -1,12 +1,24 @@
 // Lets the station app reopen with no signal. Network first, so edits always show when online.
-const CACHE = 'wl-station-v1';
+// Bump CACHE whenever a file in SHELL changes name or location.
+const CACHE = 'wl-station-v3';
 const SHELL = [
-  'station/index.php', 'assets/css/tokens.css', 'assets/css/components.css', 'assets/js/common.js',
-  'assets/js/i18n-station.js', 'assets/js/station.js', 'assets/img/placeholder-logo.svg', 'assets/img/placeholder-photo.svg',
+  './', './index.html', './offline.html', './manifest.json',
+  './pages/station/dashboard.html', './pages/supplier/dashboard.html',
+  './assets/css/tokens.css', './assets/css/components.css',
+  './assets/images/placeholder-logo.svg', './assets/images/placeholder-photo.svg',
+  './js/app.js', './js/core/utils.js', './js/services/api.js', './js/services/sw-register.js',
+  './js/features/station-i18n.js', './js/features/station.js',
+  './js/features/supplier-i18n.js', './js/features/supplier.js',
 ];
 
 self.addEventListener('install', (ev) => {
   ev.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
+});
+
+self.addEventListener('activate', (ev) => {
+  ev.waitUntil(caches.keys()
+    .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+    .then(() => self.clients.claim()));
 });
 
 self.addEventListener('fetch', (ev) => {
@@ -15,10 +27,13 @@ self.addEventListener('fetch', (ev) => {
   ev.respondWith(
     fetch(ev.request)
       .then((res) => {
-        const copy = res.clone();
-        caches.open(CACHE).then((c) => c.put(ev.request, copy));
+        if (res.ok) {
+          const copy = res.clone();
+          caches.open(CACHE).then((c) => c.put(ev.request, copy));
+        }
         return res;
       })
-      .catch(() => caches.match(ev.request, { ignoreSearch: true }))
+      .catch(() => caches.match(ev.request, { ignoreSearch: true })
+        .then((hit) => hit || (ev.request.mode === 'navigate' ? caches.match('./offline.html') : Response.error())))
   );
 });

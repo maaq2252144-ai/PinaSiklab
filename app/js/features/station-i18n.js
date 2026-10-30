@@ -1,7 +1,7 @@
 // Station app text. Ilokano is a first draft and needs a native speaker's review.
 const ST_L = {
   fil: {
-    code: 'FIL', back: 'Bumalik', stationTitle: 'Timbangan', online: 'Online', offline: 'Walang signal', waiting: (n) => `${n} naghihintay i-upload`, synced: 'Naka-upload', queued: 'Naka-save sa phone', failedSync: 'Kailangang suriin',
+    code: 'FIL', language: 'Wika', pinCount: (n) => `${n} numero ang nailagay`, back: 'Bumalik', stationTitle: 'Timbangan', online: 'Online', offline: 'Walang signal', waiting: (n) => `${n} naghihintay i-upload`, synced: 'Naka-upload', queued: 'Naka-save sa phone', failedSync: 'Kailangang suriin',
     loginTitle: 'Ilagay ang PIN', login: 'Pasok', logout: 'Mag-log out',
     today: 'Ngayong araw', loadsL: 'Mga hatid', weighBtn: 'Timbangin', todayLoads: 'Mga hatid ngayon', noLoads: 'Wala pang hatid ngayon.', more: 'Iba pang gamit', baseline: 'Baseline: tinimbang lang, walang bayad',
     forReview: 'Para masuri (tuloy ang bayad)',
@@ -29,7 +29,7 @@ const ST_L = {
     e: { bad_pin: 'Mali ang PIN.', bad_weight: 'Mali ang timbang.', bad_crate: 'Mali ang crate o timbang nito.', reason_required: 'Pumili o maglagay ng dahilan.', photo_required: 'Kailangan ng litrato.', supplier_not_active: 'Hindi aktibo ang supplier.', consent_required: 'Kailangan ang pahintulot.', tag_required: 'Piliin kung dagdag o dati na.', in_person_required: 'Kumpirmahin muna nang personal.', missing_fields: 'Pakisagutan lahat.', bad_mobile: 'Dapat 11 digit at nagsisimula sa 09.', mobile_taken: 'Nakarehistro na ang numerong ito.', nothing_to_send: 'Walang ipapadala.', network: 'Walang koneksyon.', server_error: 'May problema. Subukan ulit.' },
   },
   ilo: {
-    code: 'ILO', back: 'Agsubli', stationTitle: 'Timbangan', online: 'Online', offline: 'Awan ti signal', waiting: (n) => `${n} ur-urayen a mai-upload`, synced: 'Na-upload', queued: 'Naidulin iti selpon', failedSync: 'Masapul a makita',
+    code: 'ILO', language: 'Pagsasao', pinCount: (n) => `${n} a numero ti naikabil`, back: 'Agsubli', stationTitle: 'Timbangan', online: 'Online', offline: 'Awan ti signal', waiting: (n) => `${n} ur-urayen a mai-upload`, synced: 'Na-upload', queued: 'Naidulin iti selpon', failedSync: 'Masapul a makita',
     loginTitle: 'Ikabil ti PIN', login: 'Sumrek', logout: 'Rummuar',
     today: 'Ita nga aldaw', loadsL: 'Dagiti inyeg', weighBtn: 'Timbangen', todayLoads: 'Dagiti inyeg ita', noLoads: 'Awan pay ti inyeg ita.', more: 'Dadduma a gamit', baseline: 'Baseline: natimbang laeng, awan ti bayad',
     forReview: 'Para makita (agtuloy ti bayad)',
@@ -57,7 +57,7 @@ const ST_L = {
     e: { bad_pin: 'Biddut ti PIN.', bad_weight: 'Biddut ti dagsen.', bad_crate: 'Biddut ti crate wenno dagsenna.', reason_required: 'Agpili wenno agikabil iti gapu.', photo_required: 'Masapul ti ladawan.', supplier_not_active: 'Saan nga aktibo ti supplier.', consent_required: 'Masapul ti pammalubos.', tag_required: 'Pilien no nayon wenno dati.', in_person_required: 'Kumpirmaem pay iti personal.', missing_fields: 'Pakisungbatan amin.', bad_mobile: 'Masapul nga 11 digit ken mangrugi iti 09.', mobile_taken: 'Nairehistron daytoy a numero.', nothing_to_send: 'Awan ti maipatulod.', network: 'Awan ti koneksion.', server_error: 'Adda problema. Padasem manen.' },
   },
   en: {
-    code: 'EN', back: 'Back', stationTitle: 'Weigh station', online: 'Online', offline: 'No signal', waiting: (n) => `${n} waiting to upload`, synced: 'Uploaded', queued: 'Saved on phone', failedSync: 'Needs checking',
+    code: 'EN', language: 'Language', pinCount: (n) => `${n} digits entered`, back: 'Back', stationTitle: 'Weigh station', online: 'Online', offline: 'No signal', waiting: (n) => `${n} waiting to upload`, synced: 'Uploaded', queued: 'Saved on phone', failedSync: 'Needs checking',
     loginTitle: 'Enter your PIN', login: 'Log in', logout: 'Log out',
     today: 'Today', loadsL: 'Deliveries', weighBtn: 'Weigh a load', todayLoads: 'Today’s deliveries', noLoads: 'No deliveries yet today.', more: 'More tools', baseline: 'Baseline: weighed only, no pay',
     forReview: 'For review (pay continues)',

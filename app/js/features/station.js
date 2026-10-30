@@ -20,12 +20,12 @@ const FLOW = ['scan', 'weigh', 'photo', 'grade', 'confirm'];
 function netChip() {
   const t = T(), n = S.queue.length;
   const label = isOffline() ? t.offline : t.online;
-  return `<button class="chip" data-act="toggle-net" aria-pressed="${isOffline()}" style="min-height:44px">${icon(isOffline() ? 'nosignal' : 'cloud', 20)}${esc(label)}${n ? ` · ${esc(t.waiting(n))}` : ''}</button>`;
+  return `<button class="chip" data-act="toggle-net" aria-pressed="${isOffline()}">${icon(isOffline() ? 'nosignal' : 'cloud', 20)}${esc(label)}${n ? ` · ${esc(t.waiting(n))}` : ''}</button>`;
 }
 function flowTop(backTo) {
   const t = T(), idx = FLOW.indexOf(route().name);
   return `<div class="top"><button class="pill" data-go="${backTo}">${icon('back')}<span>${esc(t.back)}</span></button><span class="grow"></span>${isOffline() ? `<span class="badge minor">${icon('nosignal', 18)}${esc(t.offline)}</span>` : ''}</div>
-  <div class="stepper">${t.steps.map((s, i) => `<div class="${i <= idx ? 'on' : ''} ${i === idx ? 'cur' : ''}"><i></i>${esc(s)}</div>`).join('')}</div>`;
+  <div class="stepper">${t.steps.map((s, i) => `<div class="${i <= idx ? 'on' : ''} ${i === idx ? 'cur' : ''}" ${i === idx ? 'aria-current="step"' : ''}><i></i>${esc(s)}</div>`).join('')}</div>`;
 }
 const toolTop = (backTo) => `<div class="top"><button class="pill" data-go="${backTo}">${icon('back')}<span>${esc(T().back)}</span></button><span class="grow"></span></div>`;
 const whoCard = () => {
@@ -50,11 +50,11 @@ const SCREENS = {
   login() {
     const t = T();
     return `<div class="screen"><div class="scroll">
-      <img src="../assets/img/placeholder-logo.svg" alt="Logo placeholder" width="84" height="84" style="align-self:center">
+      <img src="${APP_ROOT}assets/images/placeholder-logo.svg" alt="Logo placeholder" width="84" height="84" class="logo">
       <h1 class="center">${esc(t.loginTitle)}</h1>
-      <div class="display" aria-live="polite">${'•'.repeat(S.pin.length) || '<small>PIN</small>'}</div>
+      <div class="display" data-announce="${S.pin.length ? esc(t.pinCount(S.pin.length)) : ''}">${'•'.repeat(S.pin.length) || '<small>PIN</small>'}</div>
       ${errorLine()}${keypad('pin-key', false)}
-      <div class="note small">Demo PIN: 1234 (Kuya Jun)</div>
+      <div class="note small">Demo PINs: 1234 (Kuya Jun), 5678 (Ate Carmen), 2468 (Kuya Dante)</div>
     </div><div class="foot"><button class="btn big" data-act="login" ${S.pin.length ? '' : 'disabled'}>${esc(t.login)}</button></div></div>`;
   },
   home() {
@@ -64,8 +64,8 @@ const SCREENS = {
     const totalKg = loads.filter((l) => l.grade !== 'rejected').reduce((a, l) => a + Number(l.corrected_kg ?? l.net_kg), 0);
     return `<div class="screen"><div class="hero">
       <div class="row"><span class="avatar" aria-hidden="true">${icon('scale')}</span>
-        <span class="grow"><b>${esc(t.stationTitle)}</b><br><span class="small">${esc(c.staff.station)} · ${esc(c.staff.name)}</span></span>
-        <button class="ghost" data-act="cycle-lang">${esc(t.code)}</button></div>
+        <div class="grow"><h1 class="hero-title">${esc(t.stationTitle)}</h1><span class="small">${esc(c.staff.station)} · ${esc(c.staff.name)}</span></div>
+        <button class="ghost" data-act="cycle-lang" aria-label="${esc(t.language)}: ${esc(t.code)}">${esc(t.code)}</button></div>
       <div class="row">${netChip()}</div>
       <div class="tiles"><div class="stat"><span>${esc(t.today)}</span><b>${totalKg.toFixed(1)} kg</b></div><div class="stat"><span>${esc(t.loadsL)}</span><b>${loads.length}</b></div></div>
     </div>
@@ -91,7 +91,7 @@ const SCREENS = {
       ${S.showCrates ? `<h2>${esc(t.pickCrate)}</h2>${crates.map(({ s, c }) => `<button class="card" data-act="pick-crate" data-s="${esc(s.id)}" data-c="${esc(c.code)}"><b>${esc(c.code)}</b><span class="small sub">${esc(s.name)}</span></button>`).join('')}`
         : `<button class="scanner" data-act="show-crates"><span class="frame" aria-hidden="true"></span>${esc(t.tapScan)}</button>`}
       <label class="field">${esc(t.search)}<input id="sup-search" autocomplete="off"></label>
-      <div id="sup-results" class="steps" style="gap:8px"></div>
+      <div id="sup-results" class="results"></div>
     </div></div>`;
   },
   weigh() {
@@ -107,7 +107,7 @@ const SCREENS = {
       ${f.supplier.members.length ? `<label class="field">${esc(t.member)}<select id="member"><option value="">${esc(t.memberNone)}</option>${f.supplier.members.map((m) => `<option value="${m.id}" ${String(f.member) === String(m.id) ? 'selected' : ''}>${esc(m.name)}</option>`).join('')}</select></label>` : ''}
       <h1>${esc(t.weighTitle)}</h1><p class="sub small">${esc(t.weighSub)}</p>
     </div><div class="foot entry">
-      <div class="display" aria-live="polite">${esc(f.gross || '0')} <small>kg</small></div>
+      <div class="display" data-announce="${esc(f.gross || '0')} kg">${esc(f.gross || '0')} <small>kg</small></div>
       <div class="totals"><span>${esc(t.tare)}: − ${kg(c.tare_kg)}</span><b>${esc(t.net)}: ${gross ? kg(net) : '—'}</b></div>
       ${neg ? `<p class="error small" role="alert">${icon('warn', 22)}<span>${esc(t.negWeight)}</span></p>` : ''}
       ${over ? `<label class="check note warn"><input type="checkbox" data-act="over-ok" ${f.overOk ? 'checked' : ''}><span>${esc(t.overCap(c.capacity_kg))} ${esc(t.confirmWeight)}</span></label>` : ''}
@@ -119,19 +119,19 @@ const SCREENS = {
     const t = T(), f = S.flow;
     return `<div class="screen">${flowTop('weigh')}<div class="scroll">
       <h1>${esc(t.photoTitle)}</h1><p class="sub">${esc(t.photoSub)}</p>
-      ${f.photo ? `<img class="photo-img" src="../assets/img/placeholder-photo.svg" alt="${esc(t.photoAlt)}"><button class="btn outline" data-act="retake">${icon('camera')}${esc(t.retake)}</button>`
+      ${f.photo ? `<img class="photo-img" src="${APP_ROOT}assets/images/placeholder-photo.svg" alt="${esc(t.photoAlt)}"><button class="btn outline" data-act="retake">${icon('camera')}${esc(t.retake)}</button>`
         : `<button class="scanner" data-act="capture">${icon('camera', 56)}${esc(t.capture)}</button>`}
     </div><div class="foot"><button class="btn big" data-go="grade" ${f.photo ? '' : 'disabled'}>${esc(t.next)}</button></div></div>`;
   },
   grade() {
     const t = T(), f = S.flow;
-    const gBtn = (g, ic, cls) => `<button class="card" data-act="set-grade" data-g="${g}" aria-pressed="${f.grade === g}" style="${f.grade === g ? 'border:3px solid var(--forest);background:var(--leaf-tint)' : ''};min-height:84px">
-      <span class="row"><span class="dot" style="border:0;background:${cls};color:${g === 'minor' ? 'var(--charcoal)' : 'var(--cream)'}">${icon(ic, 20)}</span><span class="grow"><b style="font-size:22px">${esc(t.g[g])}</b><br><span class="small sub">${esc(t.gs[g])}</span></span>${f.grade === g ? icon('check') : ''}</span></button>`;
+    const gBtn = (g, ic) => `<button class="card grade-card" data-act="set-grade" data-g="${g}" aria-pressed="${f.grade === g}">
+      <span class="row"><span class="dot grade-${g}">${icon(ic, 20)}</span><span class="grow"><b class="grade-name">${esc(t.g[g])}</b><br><span class="small sub">${esc(t.gs[g])}</span></span>${f.grade === g ? icon('check') : ''}</span></button>`;
     const needs = f.grade && f.grade !== 'clean';
     return `<div class="screen">${flowTop('photo')}<div class="scroll">
       <h1>${esc(t.gradeTitle)}</h1>
-      ${gBtn('clean', 'check', 'var(--forest)')}${gBtn('minor', 'warn', 'var(--gold)')}${gBtn('rejected', 'x', 'var(--charcoal)')}
-      ${needs ? `<h2>${esc(t.reasonT)}</h2><div class="tiles">${Object.entries(t.reasons).map(([k, label]) => `<button class="tile" data-act="set-reason" data-r="${k}" aria-pressed="${f.reason === k}" style="${f.reason === k ? 'border:3px solid var(--forest);background:var(--leaf-tint)' : ''}">${icon(k, 30)}${esc(label)}</button>`).join('')}</div>` : ''}
+      ${gBtn('clean', 'check')}${gBtn('minor', 'warn')}${gBtn('rejected', 'x')}
+      ${needs ? `<h2>${esc(t.reasonT)}</h2><div class="tiles">${Object.entries(t.reasons).map(([k, label]) => `<button class="tile" data-act="set-reason" data-r="${k}" aria-pressed="${f.reason === k}">${icon(k, 30)}${esc(label)}</button>`).join('')}</div>` : ''}
     </div><div class="foot"><button class="btn big" data-go="confirm" ${f.grade && (!needs || f.reason) ? '' : 'disabled'}>${esc(t.next)}</button></div></div>`;
   },
   confirm() {
@@ -147,7 +147,7 @@ const SCREENS = {
         <div class="kv"><span class="bold">${esc(t.net)}</span><span>${kg(net)}</span></div>
         <div class="kv"><span>${esc(t.gradeTitle)}</span><span>${esc(t.g[f.grade])}</span></div>
         ${f.reason ? `<div class="kv"><span>${esc(t.reasonT)}</span><span>${esc(t.reasons[f.reason])}</span></div>` : ''}
-        <div class="kv"><span>${esc(t.pay)}</span><span style="font-size:24px">${esc(payLabel(p))}</span></div>
+        <div class="kv"><span>${esc(t.pay)}</span><span class="amount">${esc(payLabel(p))}</span></div>
       </div>
       <label class="check"><input type="checkbox" data-act="checked" ${f.checked ? 'checked' : ''}><span>${esc(t.check)}</span></label>
     </div><div class="foot"><button class="btn big" data-act="save" ${f.checked ? '' : 'disabled'}>${esc(t.save)}</button></div></div>`;
@@ -157,8 +157,8 @@ const SCREENS = {
     if (!r) return SCREENS.home();
     const title = r.error ? t.errTitle : r.queued ? t.savedTitle : t.doneTitle;
     const sub = r.error ? (t.e[r.error] || r.error) : r.queued ? t.savedSub : t.doneSub;
-    return `<div class="screen"><div class="scroll center" style="align-items:center;justify-content:center">
-      <span class="avatar" style="width:84px;height:84px;border-radius:42px;background:${r.error ? 'var(--citrus)' : r.queued ? 'var(--gold)' : 'var(--forest)'};color:${r.queued && !r.error ? 'var(--charcoal)' : 'var(--cream)'}">${icon(r.error ? 'warn' : r.queued ? 'clock' : 'check', 46)}</span>
+    return `<div class="screen"><div class="scroll center result">
+      <span class="avatar result-icon ${r.error ? 'is-error' : r.queued ? 'is-queued' : 'is-done'}" aria-hidden="true">${icon(r.error ? 'warn' : r.queued ? 'clock' : 'check', 46)}</span>
       <h1>${esc(title)}</h1><p class="sub">${esc(sub)}</p>
       <div class="money">${kg(r.net)}</div>
       <p class="bold">${esc(r.name)} · ${esc(t.g[r.grade])} · ${esc(payLabel(r.pay))}</p>
@@ -222,7 +222,7 @@ const SCREENS = {
     const t = T(), s = supplierById(id);
     if (!s) return SCREENS.tools();
     return `<div class="screen">${toolTop('tools')}<div class="scroll"><h1>${esc(t.cardTitle)}</h1>
-      <div class="qr-card print-area"><div class="qr-box">${qrSvg(s.id)}</div><div class="center"><div style="font-size:30px;font-weight:700">${esc(s.id)}</div><div>${esc(s.name)}</div><div class="small">${esc(s.section)}</div></div></div>
+      <div class="qr-card print-area"><div class="qr-box">${qrSvg(s.id)}</div><div class="center"><div class="qr-id">${esc(s.id)}</div><div>${esc(s.name)}</div><div class="small">${esc(s.section)}</div></div></div>
       <div class="note small">${s.crates.map((c) => esc(c.code)).join(', ')}</div>
     </div><div class="foot"><button class="btn big" data-act="print">${icon('print')}${esc(t.print)}</button></div></div>`;
   },
@@ -232,7 +232,7 @@ const SCREENS = {
       ${errorLine()}
       ${c.crates.map((x) => `<div class="card"><div class="spread"><b>${esc(x.code)}</b><span class="badge ${x.status === 'active' ? '' : 'minor'}">${esc(t.st[x.status])}</span></div>
         <span class="small sub">${esc(supplierById(x.supplier_id)?.name || t.unassigned)} · ${kg(x.tare_kg)}</span>
-        <select aria-label="${esc(t.chooseSup)}" data-crate-target="${esc(x.code)}" style="min-height:48px;border-radius:12px;border:2px solid var(--line);padding:0 10px;background:var(--card)"><option value="">${esc(t.chooseSup)}</option>${c.suppliers.map((s) => `<option value="${esc(s.id)}">${esc(s.name)}</option>`).join('')}</select>
+        <select aria-label="${esc(t.chooseSup)}" data-crate-target="${esc(x.code)}" class="inline-select"><option value="">${esc(t.chooseSup)}</option>${c.suppliers.map((s) => `<option value="${esc(s.id)}">${esc(s.name)}</option>`).join('')}</select>
         <div class="chips"><button class="chip" data-act="crate-op" data-op="reassign" data-c="${esc(x.code)}">${esc(t.reassign)}</button>
         ${x.status === 'active' ? `<button class="chip" data-act="crate-op" data-op="retire" data-c="${esc(x.code)}">${esc(t.retire)}</button><button class="chip" data-act="crate-op" data-op="lost" data-c="${esc(x.code)}">${esc(t.lost)}</button>` : ''}</div></div>`).join('')}
     </div></div>`;
@@ -290,9 +290,9 @@ function activationFields(type) {
 
 function render() {
   const { name, arg } = route();
-  if (!S.cache) { app.innerHTML = SCREENS.login(); return; }
+  if (!S.cache) { paint(app, SCREENS.login(), 'login'); return; }
   if (FLOW.includes(name) && !S.flow) { location.hash = 'home'; return; }
-  app.innerHTML = (SCREENS[name] || SCREENS.home)(arg);
+  paint(app, (SCREENS[name] || SCREENS.home)(arg), location.hash || '#home');
 }
 
 function saveState() {
@@ -373,7 +373,7 @@ const ACTIONS = {
     const order = ['fil', 'ilo', 'en'];
     S.lang = order[(order.indexOf(S.lang) + 1) % 3];
     store.set('st_lang', S.lang);
-    document.documentElement.lang = S.lang === 'en' ? 'en' : 'fil';
+    setPageLang(S.lang);
     render();
   },
   async 'toggle-net'() {
@@ -547,8 +547,7 @@ window.addEventListener('online', async () => { await sync(); render(); });
 window.addEventListener('offline', render);
 
 (async function startApp() {
-  document.documentElement.lang = S.lang === 'en' ? 'en' : 'fil';
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('../sw.js').catch(() => {});
+  setPageLang(S.lang);
   render();
   await refresh();
   await sync();

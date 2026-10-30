@@ -21,7 +21,7 @@ const topBar = (backTo) => `<div class="top">
 
 const navBar = (cur) => {
   const t = T();
-  const item = (name, ic, label) => `<button data-go="${name}" ${cur === name ? 'aria-current="page"' : ''}>${name === 'inbox' && unread() ? `<span class="count">${unread()}<span hidden> unread</span></span>` : ''}${icon(ic)}<span>${esc(label)}</span></button>`;
+  const item = (name, ic, label) => `<button data-go="${name}" ${cur === name ? 'aria-current="page"' : ''}>${name === 'inbox' && unread() ? `<span class="count">${unread()}<span class="sr-only"> unread</span></span>` : ''}${icon(ic)}<span>${esc(label)}</span></button>`;
   return `<nav class="nav" aria-label="Main">
     ${item('home', 'home', t.nHome)}${item('history', 'list', t.nHist)}
     <button class="qr" data-go="qr" ${cur === 'qr' ? 'aria-current="page"' : ''}><span class="fab">${icon('qr', 34)}</span><span>${esc(t.nQr)}</span></button>
@@ -48,9 +48,9 @@ const SCREENS = {
   lang() {
     const t = T();
     S.say = t.chooseLang;
-    const opt = (code, name) => `<button class="btn ${S.lang === code ? '' : 'outline'}" data-act="pick-lang" data-lang="${code}" aria-pressed="${S.lang === code}">${S.lang === code ? icon('check') : ''}${name}</button>`;
+    const opt = (code, name) => `<button class="btn ${S.lang === code ? '' : 'outline'}" data-act="pick-lang" data-lang="${code}" lang="${code}" aria-pressed="${S.lang === code}">${S.lang === code ? icon('check') : ''}${name}</button>`;
     return `<div class="screen"><div class="scroll">
-      <img src="../assets/img/placeholder-logo.svg" alt="Logo placeholder" width="96" height="96" style="align-self:center;margin-top:16px">
+      <img src="${APP_ROOT}assets/images/placeholder-logo.svg" alt="Logo placeholder" width="96" height="96" class="logo lead">
       <h1 class="center">WasteLedger PH</h1><p class="center sub">${esc(t.tagline)}</p>
       <h2 class="center">${esc(t.chooseLang)}</h2>
       ${opt('fil', 'Filipino')}${opt('ilo', 'Ilokano')}${opt('en', 'English')}
@@ -64,7 +64,7 @@ const SCREENS = {
     const shown = `${d.slice(0, 4)} ${d.slice(4, 7)} ${d.slice(7)}`.trim();
     return `<div class="screen">${topBar('lang')}<div class="scroll">
       <h1>${esc(t.signTitle)}</h1><p class="sub">${esc(t.signSub)}</p>
-      <div class="display" aria-label="${esc(t.mobile)}" aria-live="polite" style="font-size:32px">${esc(shown) || '<small>09__ ___ ____</small>'}</div>
+      <div class="display phone-num" data-announce="${esc(S.phone.split('').join(' '))}">${esc(shown) || '<small>09__ ___ ____</small>'}</div>
       ${S.error ? `<p class="error" role="alert">${icon('warn', 22)}<span>${esc(S.error)}</span></p>` : ''}
       ${keypad('phone-key')}
       <p class="sub small">${esc(t.privacy)}</p>
@@ -78,7 +78,7 @@ const SCREENS = {
     const cells = Array.from({ length: 6 }, (_, i) => `<span>${esc(S.otp[i] || '')}</span>`).join('');
     return `<div class="screen">${topBar('phone')}<div class="scroll">
       <h1>${esc(t.otpTitle)}</h1><p class="sub">${esc(t.otpSub)} ${esc(S.phone)}</p>
-      <div class="otp" aria-label="${esc(t.otpTitle)}" aria-live="polite">${cells}</div>
+      <div class="otp" data-announce="${esc(S.otp.split('').join(' '))}">${cells}</div>
       ${S.error ? `<p class="error" role="alert">${icon('warn', 22)}<span>${esc(S.error)}</span></p>` : ''}
       <button class="card" data-act="fill-otp"><span class="spread"><span><span class="small sub">${esc(t.autofill)}</span><br><b>${esc(S.demoCode)}</b></span><span class="badge">${esc(t.tapFill)}</span></span></button>
       ${keypad('otp-key')}
@@ -92,6 +92,7 @@ const SCREENS = {
     S.say = t.sayBal(peso(d.balance), line);
     const last = d.history[0];
     return `<div class="screen"><div class="hero">
+      <h1 class="sr-only">${esc(t.nHome)}</h1>
       <div class="row">
         <span class="avatar" aria-hidden="true">${esc(initials(s.name))}</span>
         <span class="grow"><span class="small">${esc(t.greet)},</span><br><b>${esc(s.name.split('·')[0].trim())}</b></span>
@@ -100,8 +101,8 @@ const SCREENS = {
       </div>
       <div class="spread"><span>${esc(t.balance)}</span>
         <button class="ghost" data-act="toggle-hide">${icon(S.hidden ? 'eye' : 'eyeoff', 20)}${esc(S.hidden ? t.show : t.hide)}</button></div>
-      <div class="money" aria-live="polite">${S.hidden ? '₱ ••••' : esc(peso(d.balance))}</div>
-      <div class="track" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><span style="width:${pct}%"></span></div>
+      <div class="money">${S.hidden ? '₱ ••••' : esc(peso(d.balance))}</div>
+      <div class="track" role="progressbar" aria-label="${esc(line)}" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><span style="width:${pct}%"></span></div>
       <div class="small"><b>${esc(line)}</b><br>${esc(t.keep)}</div>
     </div>
     <div class="scroll">
@@ -123,9 +124,10 @@ const SCREENS = {
     const t = T(), s = S.data.supplier;
     S.say = t.qrTitle + '. ' + t.qrSub;
     return `<div class="screen">${topBar('home')}<div class="scroll">
-      <div class="qr-card"><b style="font-size:21px">${esc(t.qrSub)}</b>
+      <h1 class="sr-only">${esc(t.qrTitle)}</h1>
+      <div class="qr-card"><b class="qr-title">${esc(t.qrSub)}</b>
         <div class="qr-box">${qrSvg(s.id)}</div>
-        <div class="center"><div class="small">${esc(t.supplierId)}</div><div style="font-size:30px;font-weight:700">${esc(s.id)}</div><div>${esc(s.name)}</div></div></div>
+        <div class="center"><div class="small">${esc(t.supplierId)}</div><div class="qr-id">${esc(s.id)}</div><div>${esc(s.name)}</div></div></div>
       <div class="note small">${esc(t.qrTip)}<br>${esc(t.qrSample)}</div>
     </div>${navBar('qr')}</div>`;
   },
@@ -151,7 +153,7 @@ const SCREENS = {
     return `<div class="screen">${topBar('history')}<div class="scroll">
       <h1>${esc(t.recTitle)}</h1>
       ${tracker(d)}
-      <img class="photo-img" src="../assets/img/placeholder-photo.svg" alt="${esc(t.photoAlt)}">
+      <img class="photo-img" src="${APP_ROOT}assets/images/placeholder-photo.svg" alt="${esc(t.photoAlt)}">
       <div class="card">
         <div class="kv"><span>${esc(t.weight)}</span><span>${kg(d.net_now)}</span></div>
         ${d.corrected_kg ? `<div class="kv"><span>${esc(t.corrected)}</span><span>${kg(d.net_kg)} → ${kg(d.corrected_kg)}</span></div>` : ''}
@@ -176,7 +178,7 @@ const SCREENS = {
     const amount = p.latest && p.latest.status === 'pending' ? p.latest.amount : d.balance;
     return `<div class="screen">${topBar('home')}<div class="scroll">
       <h1>${esc(t.payTitle)}</h1>
-      <div class="card"><div class="kv"><span>${esc(t.payAmount)}</span><span style="font-size:24px">${esc(peso(amount))}</span></div>
+      <div class="card"><div class="kv"><span>${esc(t.payAmount)}</span><span class="amount">${esc(peso(amount))}</span></div>
         <div class="kv"><span>${esc(t.payAccount)}</span><span>${esc(acct)}</span></div></div>
       <div class="card"><div class="steps">
         ${step(reached ? 'done' : 'now', reached ? 'check' : 'clock', t.tReached(thr), reached ? '' : t.more(peso(Math.max(0, d.threshold - d.balance))))}
@@ -206,6 +208,7 @@ const SCREENS = {
     const lastOut = [...d.messages].reverse().find((m) => m.direction === 'out');
     S.say = lastOut ? lastOut.body : t.noMsg;
     return `<div class="screen">${topBar('inbox')}<div class="scroll" id="thread">
+      <h1 class="sr-only">${esc(t.stationName)}</h1>
       ${d.messages.map((m) => `<div class="bubble ${m.direction === 'in' ? 'me' : ''}">${esc(m.body)}<time>${esc(fmtDate(m.created_at, S.lang))} ${esc(fmtTime(m.created_at))}</time></div>`).join('')}
     </div><div class="foot"><div class="chips">
       <button class="chip" data-act="quick" data-text="${esc(t.q1)}">${esc(t.q1)}</button>
@@ -229,7 +232,7 @@ const SCREENS = {
   me() {
     const t = T(), s = S.data.supplier;
     S.say = t.meTitle;
-    const opt = (code, name) => `<button class="chip" data-act="pick-lang" data-lang="${code}" aria-pressed="${S.lang === code}">${S.lang === code ? icon('check', 18) : ''}${name}</button>`;
+    const opt = (code, name) => `<button class="chip" data-act="pick-lang" data-lang="${code}" lang="${code}" aria-pressed="${S.lang === code}">${S.lang === code ? icon('check', 18) : ''}${name}</button>`;
     return `<div class="screen">${topBar()}<div class="scroll">
       <h1>${esc(t.meTitle)}</h1>
       <div class="card"><b>${esc(s.name)}</b><span class="small sub">${esc(s.id)} · ${esc(s.section)}</span></div>
@@ -258,8 +261,8 @@ const SCREENS = {
   applied(id) {
     const t = T();
     S.say = t.appliedTitle + ' ' + t.appliedSub;
-    return `<div class="screen"><div class="scroll center" style="justify-content:center;align-items:center">
-      <span class="avatar" style="width:80px;height:80px;border-radius:40px;background:var(--forest);color:var(--cream)">${icon('check', 44)}</span>
+    return `<div class="screen"><div class="scroll center result">
+      <span class="avatar result-icon is-done" aria-hidden="true">${icon('check', 44)}</span>
       <h1>${esc(t.appliedTitle)}</h1><p class="sub">${esc(t.appliedSub)}</p><div class="money">${esc(id)}</div>
     </div><div class="foot"><button class="btn big" data-go="phone">${esc(t.goHome)}</button></div></div>`;
   },
@@ -294,7 +297,7 @@ async function load() {
 function setLang(l) {
   S.lang = l;
   store.set('wl_lang', l);
-  document.documentElement.lang = l === 'en' ? 'en' : 'fil';
+  setPageLang(l);
 }
 
 function render() {
@@ -302,10 +305,9 @@ function render() {
   if (!PUBLIC.includes(name) && !S.data) { location.hash = S.lang ? 'phone' : 'lang'; return; }
   if (PUBLIC.includes(name) && S.data && name !== 'lang') { location.hash = 'home'; return; }
   const fn = SCREENS[name] || SCREENS.home;
-  app.innerHTML = fn(arg);
+  paint(app, fn(arg), location.hash);
   const scroller = document.getElementById('thread');
   if (scroller) scroller.scrollTop = scroller.scrollHeight;
-  document.querySelector('h1')?.setAttribute('tabindex', '-1');
 }
 
 const ACTIONS = {

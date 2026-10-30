@@ -1,6 +1,6 @@
 <?php
 // Backs the Demo Controls page, which stands in for the City Admin app (not built).
-require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../_shared/bootstrap.php';
 $action = api_start();
 $in = body();
 $actor = 'demo controls';

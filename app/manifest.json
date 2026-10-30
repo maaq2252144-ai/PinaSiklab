@@ -1,0 +1,14 @@
+{
+  "name": "WasteLedger PH",
+  "short_name": "WasteLedger",
+  "description": "Prototype of the WasteLedger PH supplier and weigh-station apps. Sample data only.",
+  "id": "./index.html",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#1A4D2E",
+  "icons": [
+    { "src": "assets/images/placeholder-logo.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
