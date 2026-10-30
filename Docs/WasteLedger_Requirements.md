@@ -53,7 +53,7 @@
 | ID | Functional Requirement |
 |----|------------------------|
 | FR29 | The system shall keep a ledger for each supplier of credits (drop-offs), debits (payouts), and adjustments, with a running balance. |
-| FR30 | The system shall carry each supplier's balance over indefinitely; balances shall never expire. |
+| FR30 | The system shall carry each supplier's unpaid balance over until it is paid out. |
 | FR31 | The system shall not allow records to be deleted, and shall save every correction as a new linked entry with the old value, new value, who made it, when, and why. |
 | FR32 | The system shall require supervisor approval for corrections by station staff above a set threshold. |
 | FR33 | The system shall send suppliers a monthly SMS summary of kilos dropped off, amount earned, balance, and an impact line. |
@@ -129,7 +129,7 @@
 
 | ID | Functional Requirement |
 |----|------------------------|
-| FR70 | The system shall provide a public page showing only totals (tons diverted, money saved, active stations, and payouts made this month), with no personal data. |
+| FR70 | The system shall provide a public page showing program totals (tons diverted, money saved, active stations, and payouts made this month) without exposing suppliers' personal data. |
 | FR71 | The system shall show a "where your waste goes" explainer on the public page (station → facility → compost). |
 | FR72 | The system shall show public totals by barangay. (Phase 2) |
 
@@ -179,10 +179,10 @@
 | NFR3 | The system shall not lose or duplicate any record during sync. |
 | NFR4 | The station app shall use large touch targets that work with gloves and wet hands, three large grade buttons with color and icon, and a numeric keypad only for weights. |
 | NFR5 | The system shall support Filipino and English in the station app, consent text, and SMS. |
-| NFR6 | The system shall not require suppliers to have an app or smartphone, shall deliver receipts by SMS to any phone, and shall never show meaning by color alone. |
+| NFR6 | The system shall deliver supplier receipts by SMS so they work on any phone, and shall not show meaning by color alone. |
 | NFR7 | The station app shall run on low- to mid-range Android phones (minimum version **[TBD]**), and facility and dashboard screens shall work in a desktop browser. |
 | NFR8 | The system shall let a city admin find the city's total savings in under 5 minutes. |
-| NFR9 | The system shall comply with the Data Privacy Act of 2012 through consent, minimum data collection, no government ID numbers, and totals-only public views. |
+| NFR9 | The system shall comply with the Data Privacy Act of 2012 through consent, minimum data collection, no government ID numbers, and no personal data on public pages. |
 | NFR10 | The system shall let the city, as owner of its data, export all of it. |
 | NFR11 | The system shall encrypt data in transit and at rest, enforce role-based access, allow payout approval only by an authorized city user, and store photos securely linked to their records. |
 | NFR12 | The system shall make every record, correction, and payout traceable to a person, device, and time. |

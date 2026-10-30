@@ -9,6 +9,8 @@ Constraints to follow when working on WasteLedger PH. Add a rule whenever a new 
 - **Don't invent values the sources don't give.** Mark them **[TBD]** instead. *(Oct 30, 2026)*
 - **Put project documents in the `Docs` folder.** *(Oct 30, 2026)*
 - **Keep this rules file in the `Rules` folder, not the project root.** *(Oct 30, 2026)*
+- **Log every change from the concept note** in `Docs/Concept_Note_Changes.md`: what the note says, what it is now, and which sections need updating. *(Oct 30, 2026)*
+- **Don't turn persona suggestions into rules.** Rules come only from constraints the user states or from the concept note. Persona design implications are ideas, not constraints. *(Oct 30, 2026)*
 
 ## Product constraints
 
@@ -18,13 +20,10 @@ Constraints to follow when working on WasteLedger PH. Add a rule whenever a new 
 - **No government ID numbers are collected** from suppliers.
 - **Suppliers can apply, but staff activate them.** An application stays pending and earns nothing until staff verify it in person, record consent, set the additional/existing tag and issue the crate and ID card.
 - **Records can't be deleted.** Every correction is logged with who made it, when and why.
-- **AI flags never withhold pay automatically.** A person reviews every flag.
+- **Automatic flags never withhold pay.** The flags are simple rule-based checks, not AI; don't call them AI. A person reviews every flag.
 - **Rate rule:** payout + platform fee + transfer fee + minimum city saving must not exceed the city's hauling + tipping cost per kg.
 - **Full rate only for newly diverted waste.** Waste that already went to Irisan earns only a quality bonus.
-- **Balances never expire.**
 - **No weekly cap on paid kilos.** Don't add a per-supplier or per-co-op weekly limit to requirements, rules or designs. *(Removed Oct 30, 2026)*
-- **Suppliers need no app.** Their touchpoints are the crate, the ID card, SMS and station staff.
 - **The station app must work offline.**
 - **City-specific values are settings, not code.**
-- **Public views show totals only**, never personal data.
 - **Comply with the Data Privacy Act of 2012.**

@@ -1,0 +1,9 @@
+# Changes from the Concept Note
+
+Decisions that differ from *WasteLedger PH Concept Note v6.5*. The concept note itself hasn't been updated yet.
+
+| # | Date | Change | Concept note says | Now | Sections to update |
+|---|------|--------|-------------------|-----|--------------------|
+| 1 | Oct 30, 2026 | **Weekly cap removed** | Clean waste is paid "up to a weekly cap per supplier so no one is rewarded for making more waste." Weekly caps are also listed as a defense against padded or dirty loads. | There's no weekly cap on paid kilos for suppliers or co-ops. Every clean kilo is paid at the applicable rate. | §III step 3 (Pay); §IX Key risks ("Padded or dirty loads"). Personas: Ate Nena, Manong Ben, Councilor Grace. |
+| 2 | Oct 30, 2026 | **Suppliers can apply on their own** | Registration is described only as "Each vendor or farmer group gets a reusable crate with a QR sticker." It doesn't say who starts registration. | Suppliers can apply by SMS or a web form. The application stays pending and earns nothing until station staff verify it in person, record consent, set the additional/existing tag and issue the crate and ID card. Staff can still register suppliers directly. | §III step 1 (Register) |
+| 3 | Oct 30, 2026 | **Flags are rule-based checks, not AI** | "Simple AI checks flag unusual loads" and "AI anomaly detection that flags unusual loads for review, starting as simple rules and learning from pilot data." | The flags are described as automatic rule-based checks and aren't called AI. A person still reviews every flag, and pay is never withheld automatically. | §III "How the records stay honest" ("People decide"); §III Technology paragraph |
