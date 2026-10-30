@@ -50,7 +50,7 @@ const SCREENS = {
   login() {
     const t = T();
     return `<div class="screen"><div class="scroll">
-      <img src="${APP_ROOT}assets/images/placeholder-logo.svg" alt="Logo placeholder" width="84" height="84" class="logo">
+      <img src="${APP_ROOT}assets/images/logo.png" alt="WasteLedger PH" width="84" height="84" class="logo">
       <h1 class="center">${esc(t.loginTitle)}</h1>
       <div class="display" data-announce="${S.pin.length ? esc(t.pinCount(S.pin.length)) : ''}">${'•'.repeat(S.pin.length) || '<small>PIN</small>'}</div>
       ${errorLine()}${keypad('pin-key', false)}

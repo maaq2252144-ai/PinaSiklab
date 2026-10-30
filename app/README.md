@@ -33,7 +33,8 @@ app/
 │   └── supplier/           Supplier balance, history, messages
 ├── assets/
 │   ├── css/                tokens.css, components.css
-│   └── images/             Placeholder logo and photo
+│   ├── icons/              App icons for the tab, home screen and install
+│   └── images/             Logo and placeholder photo
 ├── database/               schema.sql, seed.sql
 ├── js/
 │   ├── app.js              Launcher logic
@@ -82,7 +83,7 @@ Every supplier uses the SMS code `482619`, which the app shows on screen.
 - QR scan: you pick a crate from a list. The QR images are sample patterns, not scannable.
 - Camera: shows a placeholder image.
 - SMS: saved in the database and shown in Messages.
-- Logo and images: placeholders in `assets/images/`.
+- Photo: a placeholder in `assets/images/`. The logo is `assets/images/logo.png`, and the app icons are in `assets/icons/`.
 
 ## Not built
 

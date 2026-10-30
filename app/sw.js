@@ -1,11 +1,12 @@
 // Lets the station app reopen with no signal. Network first, so edits always show when online.
 // Bump CACHE whenever a file in SHELL changes name or location.
-const CACHE = 'wl-station-v3';
+const CACHE = 'wl-station-v4';
 const SHELL = [
   './', './index.html', './offline.html', './manifest.json',
   './pages/station/dashboard.html', './pages/supplier/dashboard.html',
   './assets/css/tokens.css', './assets/css/components.css',
-  './assets/images/placeholder-logo.svg', './assets/images/placeholder-photo.svg',
+  './assets/images/logo.png', './assets/images/placeholder-photo.svg',
+  './assets/icons/icon-192.png', './assets/icons/icon-512.png',
   './js/app.js', './js/core/utils.js', './js/services/api.js', './js/services/sw-register.js',
   './js/features/station-i18n.js', './js/features/station.js',
   './js/features/supplier-i18n.js', './js/features/supplier.js',

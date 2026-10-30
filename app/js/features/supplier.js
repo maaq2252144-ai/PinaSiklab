@@ -50,7 +50,7 @@ const SCREENS = {
     S.say = t.chooseLang;
     const opt = (code, name) => `<button class="btn ${S.lang === code ? '' : 'outline'}" data-act="pick-lang" data-lang="${code}" lang="${code}" aria-pressed="${S.lang === code}">${S.lang === code ? icon('check') : ''}${name}</button>`;
     return `<div class="screen"><div class="scroll">
-      <img src="${APP_ROOT}assets/images/placeholder-logo.svg" alt="Logo placeholder" width="96" height="96" class="logo lead">
+      <img src="${APP_ROOT}assets/images/logo.png" alt="" width="96" height="96" class="logo lead">
       <h1 class="center">WasteLedger PH</h1><p class="center sub">${esc(t.tagline)}</p>
       <h2 class="center">${esc(t.chooseLang)}</h2>
       ${opt('fil', 'Filipino')}${opt('ilo', 'Ilokano')}${opt('en', 'English')}
