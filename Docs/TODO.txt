@@ -1,1 +1,8 @@
-User persona, Requirements, ERD and Database schema, uml diagram, empathy map
+User persona [DONE]
+Requirements [DONE]
+ERD and Database schema 
+UMl diagram 
+Empathy map [DONE]
+
+Front-End [In Progress]
+Data Flow Diagram

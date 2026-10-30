@@ -1,0 +1,18 @@
+:root {
+  --cream: #F6F4EE;
+  --card: #FCFAF5;
+  --leaf: #65A33D;
+  --leaf-tint: #E8EEDC;
+  --forest: #1A4D2E;
+  --charcoal: #142823;
+  --muted: #52645A;
+  --line: #D6DED0;
+  --gold: #F9A01B;
+  --gold-tint: #FFF0D3;
+  --tangerine: #EA7C0A;
+  --citrus: #C25400;
+  --page: #E9E6DC;
+  --radius: 18px;
+  --tap: 64px;
+  --font: 'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
