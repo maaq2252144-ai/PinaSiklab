@@ -1,0 +1,1 @@
+User persona, Requirements, ERD and Database schema, uml diagram, empathy map
