@@ -294,7 +294,8 @@ h1[tabindex="-1"]:focus { outline: none; }
 }
 
 /* ---- Layout classes that replace inline styles ---- */
-.page { max-width: 520px; margin: 0 auto; padding: 32px 16px; width: 100%; }
+/* Full pages start at the top. The body centres the phone frame on large screens, which would push the top of a long page out of reach. */
+.page { max-width: 520px; margin: 0 auto; padding: 32px 16px; width: 100%; align-self: flex-start; }
 .page.wide { max-width: 760px; padding: 24px 16px; }
 .stack { display: flex; flex-direction: column; gap: 16px; }
 .results { display: flex; flex-direction: column; gap: 8px; }
