@@ -32,145 +32,143 @@
 | FR18 | The system shall allow staff to log several crates from one supplier, or several small suppliers on a stall-row round, in one batch session. |
 | FR19 | The system shall send the supplier an SMS receipt with the net weight, grade, amount earned, and current balance after each drop-off. |
 | FR20 | The system shall record the station, staff member, device, timestamp, and GPS location (if available) for each drop-off. |
-| FR21 | The system shall show staff the supplier's weekly total against their weekly cap. |
-| FR22 | The system shall allow staff to log the weekly calibration check of the station scale against the market's Timbangan ng Bayan scale, with the reference weight, reading, and pass/fail result. |
-| FR23 | The system shall generate a delivery manifest for each trip to the composting facility, with the total kg, crate count, and time out, for the facility to confirm. |
-| FR24 | The system shall allow supervisors to run unpaid baseline weeks in which drop-offs are weighed and recorded without payouts. |
+| FR21 | The system shall allow staff to log the weekly calibration check of the station scale against the market's Timbangan ng Bayan scale, with the reference weight, reading, and pass/fail result. |
+| FR22 | The system shall generate a delivery manifest for each trip to the composting facility, with the total kg, crate count, and time out, for the facility to confirm. |
+| FR23 | The system shall allow supervisors to run unpaid baseline weeks in which drop-offs are weighed and recorded without payouts. |
 
 
 ### Offline Sync
 
 | ID | Functional Requirement |
 |----|------------------------|
-| FR25 | The system shall save every drop-off, including its photo, on the phone first and upload it when a connection is available, so the station app is fully usable offline. |
-| FR26 | The system shall give every record a unique ID generated on the phone, so a record uploaded twice is counted once. |
-| FR27 | The system shall show an online/offline indicator and the number of records waiting to upload. |
-| FR28 | The system shall cache supplier lists, crate tare weights, and current rates on the phone so scanning and grading work offline. |
-| FR29 | The system shall calculate each drop-off's amount using the rate in effect at the time of the drop-off, not the time of upload. |
+| FR24 | The system shall save every drop-off, including its photo, on the phone first and upload it when a connection is available, so the station app is fully usable offline. |
+| FR25 | The system shall give every record a unique ID generated on the phone, so a record uploaded twice is counted once. |
+| FR26 | The system shall show an online/offline indicator and the number of records waiting to upload. |
+| FR27 | The system shall cache supplier lists, crate tare weights, and current rates on the phone so scanning and grading work offline. |
+| FR28 | The system shall calculate each drop-off's amount using the rate in effect at the time of the drop-off, not the time of upload. |
 
 
 ### Ledger and Balances
 
 | ID | Functional Requirement |
 |----|------------------------|
-| FR30 | The system shall keep a ledger for each supplier of credits (drop-offs), debits (payouts), and adjustments, with a running balance. |
-| FR31 | The system shall carry each supplier's balance over indefinitely; balances shall never expire. |
-| FR32 | The system shall not allow records to be deleted, and shall save every correction as a new linked entry with the old value, new value, who made it, when, and why. |
-| FR33 | The system shall require supervisor approval for corrections by station staff above a set threshold. |
-| FR34 | The system shall send suppliers a monthly SMS summary of kilos dropped off, amount earned, balance, and an impact line. |
-| FR35 | The system shall provide each Farmer Group/Co-op a monthly statement with a breakdown per drop-off (and per member, if a member list exists) by SMS and as a printable PDF. |
-| FR36 | The system shall allow suppliers to check their balance by SMS keyword. |
+| FR29 | The system shall keep a ledger for each supplier of credits (drop-offs), debits (payouts), and adjustments, with a running balance. |
+| FR30 | The system shall carry each supplier's balance over indefinitely; balances shall never expire. |
+| FR31 | The system shall not allow records to be deleted, and shall save every correction as a new linked entry with the old value, new value, who made it, when, and why. |
+| FR32 | The system shall require supervisor approval for corrections by station staff above a set threshold. |
+| FR33 | The system shall send suppliers a monthly SMS summary of kilos dropped off, amount earned, balance, and an impact line. |
+| FR34 | The system shall provide each Farmer Group/Co-op a monthly statement with a breakdown per drop-off (and per member, if a member list exists) by SMS and as a printable PDF. |
+| FR35 | The system shall allow suppliers to check their balance by SMS keyword. |
 
 
 ### Rates and Cost Settings
 
 | ID | Functional Requirement |
 |----|------------------------|
-| FR37 | The system shall allow city admins to enter the hauling cost per ton and tipping fee per ton, each with an effective date, and shall keep past values. |
-| FR38 | The system shall enforce the rate rule: payout + platform fee + transfer fee ceiling + minimum city saving must not exceed the hauling + tipping cost per kg (Baguio defaults: ₱0.60 + ₱0.30 + ₱0.13 + ₱0.20 ≤ ₱1.45), with each component configurable per city. |
-| FR39 | The system shall lower the payout to the highest value that satisfies the rate rule when the proposed payout breaks it, alert the city admin, and allow the admin to switch to vouchers instead. |
-| FR40 | The system shall pay the full rate for clean waste from additional suppliers and only a quality bonus for waste from existing suppliers. **[TBD: bonus amount]** |
-| FR41 | The system shall pay a reduced rate for Minor Contamination loads **[TBD: rate]** and nothing for Rejected loads. |
-| FR42 | The system shall apply a weekly cap on paid kilos per supplier, with a separate cap for Farmer Groups/Co-ops, and shall record but not pay kilos above the cap. **[TBD: cap values]** |
-| FR43 | The system shall version every rate, cap, and threshold change with its effective date and the user who made it. |
-| FR44 | The system shall allow city admins and council users to view payouts and city savings under different hauling costs and food-waste shares. |
+| FR36 | The system shall allow city admins to enter the hauling cost per ton and tipping fee per ton, each with an effective date, and shall keep past values. |
+| FR37 | The system shall enforce the rate rule: payout + platform fee + transfer fee ceiling + minimum city saving must not exceed the hauling + tipping cost per kg (Baguio defaults: ₱0.60 + ₱0.30 + ₱0.13 + ₱0.20 ≤ ₱1.45), with each component configurable per city. |
+| FR38 | The system shall lower the payout to the highest value that satisfies the rate rule when the proposed payout breaks it, alert the city admin, and allow the admin to switch to vouchers instead. |
+| FR39 | The system shall pay the full rate for clean waste from additional suppliers and only a quality bonus for waste from existing suppliers. **[TBD: bonus amount]** |
+| FR40 | The system shall pay a reduced rate for Minor Contamination loads **[TBD: rate]** and nothing for Rejected loads. |
+| FR41 | The system shall version every rate and threshold change with its effective date and the user who made it. |
+| FR42 | The system shall allow city admins and council users to view payouts and city savings under different hauling costs and food-waste shares. |
 
 
 ### Payouts
 
 | ID | Functional Requirement |
 |----|------------------------|
-| FR45 | The system shall generate a payout list of suppliers whose balance has reached the payout threshold (₱200 by default, configurable per supplier type). |
-| FR46 | The system shall require a city admin to review and approve each payout list before it is released. |
-| FR47 | The system shall send payouts from the city's own Xendit/GCash or Landbank account, by API or an exported disbursement file, and shall never receive or hold the funds. |
-| FR48 | The system shall record each payout's status (pending, sent, failed, returned) and shall return failed payouts to the supplier's balance. |
-| FR49 | The system shall notify suppliers by SMS when a payout is sent. |
-| FR50 | The system shall pay each Farmer Group/Co-op as one account. |
-| FR51 | The system shall allow non-cash rewards, such as sponsor vouchers or compost from the facility, at a set conversion rate. |
-| FR52 | The system shall block payouts, with a clear message, when the city has no active funding source (rate ordinance and budget line, or bridge funding) configured. |
+| FR43 | The system shall generate a payout list of suppliers whose balance has reached the payout threshold (₱200 by default, configurable per supplier type). |
+| FR44 | The system shall require a city admin to review and approve each payout list before it is released. |
+| FR45 | The system shall send payouts from the city's own Xendit/GCash or Landbank account, by API or an exported disbursement file, and shall never receive or hold the funds. |
+| FR46 | The system shall record each payout's status (pending, sent, failed, returned) and shall return failed payouts to the supplier's balance. |
+| FR47 | The system shall notify suppliers by SMS when a payout is sent. |
+| FR48 | The system shall pay each Farmer Group/Co-op as one account. |
+| FR49 | The system shall allow non-cash rewards, such as sponsor vouchers or compost from the facility, at a set conversion rate. |
+| FR50 | The system shall block payouts, with a clear message, when the city has no active funding source (rate ordinance and budget line, or bridge funding) configured. |
 
 
 ### Facility Intake and Matching
 
 | ID | Functional Requirement |
 |----|------------------------|
-| FR53 | The system shall allow facility staff to enter daily intake on one form with the date, total kg, number of loads, and notes. |
-| FR54 | The system shall allow facility staff to confirm a station's delivery manifest, upload a photo of the logbook page, or upload an Excel sheet instead of filling in the form. |
-| FR55 | The system shall compare each day's station totals against facility intake within a configurable tolerance for moisture loss. **[TBD: tolerance]** |
-| FR56 | The system shall send mismatches outside the tolerance to a GSO review queue and shall not count them against the facility or a supplier automatically. |
-| FR57 | The system shall allow facility staff to record contamination found at intake, linked to a manifest or station. |
-| FR58 | The system shall save facility intake drafts locally and submit them when a connection is available. |
-| FR59 | The system shall record the extra tons from additional suppliers confirmed by the facility as the basis for billing. |
+| FR51 | The system shall allow facility staff to enter daily intake on one form with the date, total kg, number of loads, and notes. |
+| FR52 | The system shall allow facility staff to confirm a station's delivery manifest, upload a photo of the logbook page, or upload an Excel sheet instead of filling in the form. |
+| FR53 | The system shall compare each day's station totals against facility intake within a configurable tolerance for moisture loss. **[TBD: tolerance]** |
+| FR54 | The system shall send mismatches outside the tolerance to a GSO review queue and shall not count them against the facility or a supplier automatically. |
+| FR55 | The system shall allow facility staff to record contamination found at intake, linked to a manifest or station. |
+| FR56 | The system shall save facility intake drafts locally and submit them when a connection is available. |
+| FR57 | The system shall record the extra tons from additional suppliers confirmed by the facility as the basis for billing. |
 
 
 ### Anomaly Flags
 
 | ID | Functional Requirement |
 |----|------------------------|
-| FR60 | The system shall flag unusual drop-offs, such as repeated identical weights, sudden jumps against the supplier's history, frequent drop-offs close together, weights near the weekly cap, and missing or duplicated photos. |
-| FR61 | The system shall send flags to a review queue for supervisors or the GSO and shall never withhold pay automatically. |
-| FR62 | The system shall log each review decision (cleared, corrected, escalated) with the reviewer and a reason. |
-| FR63 | The system shall improve its flags with a model trained on pilot data, with every flag still reviewed by a person. (Later phase) |
+| FR58 | The system shall flag unusual drop-offs, such as repeated identical weights, sudden jumps against the supplier's history, frequent drop-offs close together, and missing or duplicated photos. |
+| FR59 | The system shall send flags to a review queue for supervisors or the GSO and shall never withhold pay automatically. |
+| FR60 | The system shall log each review decision (cleared, corrected, escalated) with the reviewer and a reason. |
+| FR61 | The system shall improve its flags with a model trained on pilot data, with every flag still reviewed by a person. (Later phase) |
 
 
 ### Dashboard and Reports
 
 | ID | Functional Requirement |
 |----|------------------------|
-| FR64 | The system shall show city admins a dashboard of kilos diverted, active suppliers, weekly active rate, rejection rate, payouts made, and money saved compared with hauling, by day, week, and month. |
-| FR65 | The system shall allow dashboard users to filter by station, market section, supplier type, and date range. |
-| FR66 | The system shall show the station-to-facility match status for each day. |
-| FR67 | The system shall show a seasonal view comparing current volumes with the previous year's monthly pattern. |
-| FR68 | The system shall generate a one-page executive summary PDF of tons diverted, money saved, active stations, and payouts this month. |
-| FR69 | The system shall export data to Excel/CSV, including layouts that fit the RA 9003 self-compliance report (SCMAR) and DILG Seal submissions. |
-| FR70 | The system shall forecast facility intake volumes from station data and the previous year's pattern. |
-| FR71 | The system shall report contamination by station, market section, and supplier. |
+| FR62 | The system shall show city admins a dashboard of kilos diverted, active suppliers, weekly active rate, rejection rate, payouts made, and money saved compared with hauling, by day, week, and month. |
+| FR63 | The system shall allow dashboard users to filter by station, market section, supplier type, and date range. |
+| FR64 | The system shall show the station-to-facility match status for each day. |
+| FR65 | The system shall show a seasonal view comparing current volumes with the previous year's monthly pattern. |
+| FR66 | The system shall generate a one-page executive summary PDF of tons diverted, money saved, active stations, and payouts this month. |
+| FR67 | The system shall export data to Excel/CSV, including layouts that fit the RA 9003 self-compliance report (SCMAR) and DILG Seal submissions. |
+| FR68 | The system shall forecast facility intake volumes from station data and the previous year's pattern. |
+| FR69 | The system shall report contamination by station, market section, and supplier. |
 
 
 ### Public Transparency Page
 
 | ID | Functional Requirement |
 |----|------------------------|
-| FR72 | The system shall provide a public page showing only totals (tons diverted, money saved, active stations, and payouts made this month), with no personal data. |
-| FR73 | The system shall show a "where your waste goes" explainer on the public page (station → facility → compost). |
-| FR74 | The system shall show public totals by barangay. (Phase 2) |
+| FR70 | The system shall provide a public page showing only totals (tons diverted, money saved, active stations, and payouts made this month), with no personal data. |
+| FR71 | The system shall show a "where your waste goes" explainer on the public page (station → facility → compost). |
+| FR72 | The system shall show public totals by barangay. (Phase 2) |
 
 
 ### Billing
 
 | ID | Functional Requirement |
 |----|------------------------|
-| FR75 | The system shall compute the monthly city subscription at ₱300 per extra ton confirmed by the facility, capped at 25% of the city's hauling cost per ton, with a minimum of ₱1,500 per station per month. |
-| FR76 | The system shall allow the subscription to be waived for a set period. |
-| FR77 | The system shall generate a monthly billing statement for the city's procurement and payment documents. |
+| FR73 | The system shall compute the monthly city subscription at ₱300 per extra ton confirmed by the facility, capped at 25% of the city's hauling cost per ton, with a minimum of ₱1,500 per station per month. |
+| FR74 | The system shall allow the subscription to be waived for a set period. |
+| FR75 | The system shall generate a monthly billing statement for the city's procurement and payment documents. |
 
 
 ### Administration
 
 | ID | Functional Requirement |
 |----|------------------------|
-| FR78 | The system shall provide role-based access for Suppliers, Station Staff, Station Supervisors, City Admins, Council/Executive users, Facility Staff, Auditors, and Platform Admins, with Auditors and Council/Executive users limited to read-only access. |
-| FR79 | The system shall keep each city as a separate tenant with its own costs, rates, caps, thresholds, stations, facilities, and payout account. |
-| FR80 | The system shall allow admins to add and deactivate stations, facilities, staff accounts, and station phones without losing history. |
-| FR81 | The system shall write every sign-in, setting change, correction, review decision, and payout approval to an audit log that cannot be edited. |
+| FR76 | The system shall provide role-based access for Suppliers, Station Staff, Station Supervisors, City Admins, Council/Executive users, Facility Staff, Auditors, and Platform Admins, with Auditors and Council/Executive users limited to read-only access. |
+| FR77 | The system shall keep each city as a separate tenant with its own costs, rates, thresholds, stations, facilities, and payout account. |
+| FR78 | The system shall allow admins to add and deactivate stations, facilities, staff accounts, and station phones without losing history. |
+| FR79 | The system shall write every sign-in, setting change, correction, review decision, and payout approval to an audit log that cannot be edited. |
 
 
 ### Household Suppliers (Phase 2)
 
 | ID | Functional Requirement |
 |----|------------------------|
-| FR82 | The system shall allow households to register at barangay drop points or self-register on mobile web with consent. (Phase 2) |
-| FR83 | The system shall allow barangay weigh points to use the same station app. (Phase 2) |
-| FR84 | The system shall allow households to receive rewards as GCash, vouchers, or a credit against the monthly garbage fee. (Phase 2) **[TBD]** |
+| FR80 | The system shall allow households to register at barangay drop points or self-register on mobile web with consent. (Phase 2) |
+| FR81 | The system shall allow barangay weigh points to use the same station app. (Phase 2) |
+| FR82 | The system shall allow households to receive rewards as GCash, vouchers, or a credit against the monthly garbage fee. (Phase 2) **[TBD]** |
 
 
 ### Later Extensions
 
 | ID | Functional Requirement |
 |----|------------------------|
-| FR85 | The system shall export verified diversion records in a form that can support carbon credits. (Later phase) |
-| FR86 | The system shall monitor a partner biodigester's feed and gas output through IoT sensors, using the same records. (Later phase) |
-| FR87 | The system shall provide intake and inventory tools for composting and black soldier fly partners. (Later phase) |
+| FR83 | The system shall export verified diversion records in a form that can support carbon credits. (Later phase) |
+| FR84 | The system shall monitor a partner biodigester's feed and gas output through IoT sensors, using the same records. (Later phase) |
+| FR85 | The system shall provide intake and inventory tools for composting and black soldier fly partners. (Later phase) |
 
 ## Non-Functional Requirements
 

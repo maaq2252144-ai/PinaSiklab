@@ -22,6 +22,7 @@ Constraints to follow when working on WasteLedger PH. Add a rule whenever a new 
 - **Rate rule:** payout + platform fee + transfer fee + minimum city saving must not exceed the city's hauling + tipping cost per kg.
 - **Full rate only for newly diverted waste.** Waste that already went to Irisan earns only a quality bonus.
 - **Balances never expire.**
+- **No weekly cap on paid kilos.** Don't add a per-supplier or per-co-op weekly limit to requirements, rules or designs. *(Removed Oct 30, 2026)*
 - **Suppliers need no app.** Their touchpoints are the crate, the ID card, SMS and station staff.
 - **The station app must work offline.**
 - **City-specific values are settings, not code.**
