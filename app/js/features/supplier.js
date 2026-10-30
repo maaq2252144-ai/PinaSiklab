@@ -101,7 +101,7 @@ const SCREENS = {
       </div>
       <div class="spread"><span>${esc(t.balance)}</span>
         <button class="ghost" data-act="toggle-hide">${icon(S.hidden ? 'eye' : 'eyeoff', 20)}${esc(S.hidden ? t.show : t.hide)}</button></div>
-      <div class="money">${S.hidden ? '₱ ••••' : esc(peso(d.balance))}</div>
+      <div class="money">${S.hidden ? 'PHP ••••' : esc(peso(d.balance))}</div>
       <div class="track" role="progressbar" aria-label="${esc(line)}" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><span style="width:${pct}%"></span></div>
       <div class="small"><b>${esc(line)}</b><br>${esc(t.keep)}</div>
     </div>

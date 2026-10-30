@@ -2,7 +2,8 @@
 // The app's root folder, worked out from this file's own address (js/core/utils.js), so pages at any depth find assets and the API.
 const APP_ROOT = new URL('../../', document.currentScript.src).href;
 const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const peso = (n) => '₱' + Number(n || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+// Amounts are shown with the currency code PHP, not the peso sign.
+const peso = (n) => 'PHP ' + Number(n || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 const kg = (n) => Number(n || 0).toFixed(1) + ' kg';
 const store = {
   get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
